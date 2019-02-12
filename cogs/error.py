@@ -45,8 +45,8 @@ class CommandErrorHandler:
             except:
                 pass
 
-        elif isinstance(error, discord.Forbidden):
-            return await ctx.send("You can't do that here")
+        # elif isinstance(error, discord.Forbidden):
+        #     return await ctx.send("You can't do that here")
 
         # For this error example we check to see where it came from...
         elif isinstance(error, commands.BadArgument):

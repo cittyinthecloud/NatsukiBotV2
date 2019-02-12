@@ -1,8 +1,15 @@
+import asyncio
+import operator
 import typing
 
-from discord.ext import commands
 import discord
-import asyncio
+from discord.ext import commands
+
+EMOJIS_TO_IGNORE = [
+    "\N{CROSS MARK}",
+    "\N{WHITE HEAVY CHECK MARK}",
+    "\N{MEMO}"
+]
 
 
 class ModeratorCog:
@@ -10,7 +17,6 @@ class ModeratorCog:
         self.bot = bot
 
     async def __local_check(self, ctx: commands.Context):
-        print('cog local check')
         if ctx.author.permissions_in(ctx.channel).manage_messages or (await ctx.bot.is_owner(ctx.author)):
             return True
         else:
@@ -45,9 +51,50 @@ class ModeratorCog:
 
         await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/4iUOu2Q.png", content=message)
 
+    @commands.command()
+    async def suggestion(self, ctx: commands.Context, index: int=1):
+        m: discord.Message = await ctx.send("Please wait, finding suggestion...")
+        async with ctx.typing():
+            suggestionsmessages = [x async for x in
+                                   discord.utils.get(ctx.guild.channels, name="server_suggestions").history()
+                                   if await self.isIncompleteSuggest(x)]
+
+            def get_upvotes(x):
+                reactions = discord.utils.get(x.reactions, emoji="\N{UPWARDS BLACK ARROW}")
+                if not reactions:
+                    return 0
+                else:
+                    return reactions.count
+
+            sorted_x = sorted(zip(suggestionsmessages, map(get_upvotes, suggestionsmessages)),
+                              key=operator.itemgetter(1), reverse=True)
+            if not len(sorted_x):
+                return await m.edit(content="No more suggestions")
+            else:
+                try:
+                    theking: discord.Message = sorted_x[index-1][0]
+                    updoots = discord.utils.get(theking.reactions, emoji="\N{UPWARDS BLACK ARROW}").count
+                    downdoots = discord.utils.get(theking.reactions, emoji="\N{DOWNWARDS BLACK ARROW}").count
+
+                    embed = discord.Embed(
+                        title=f"{updoots} \N{UPWARDS BLACK ARROW} | {downdoots} \N{DOWNWARDS BLACK ARROW}",
+                        description=theking.content)
+                    embed.set_footer(text=f"Written by {theking.author}", icon_url=theking.author.avatar_url)
+                    return await m.edit(content="", embed=embed)
+                except IndexError:
+                    return await m.edit(content=f"No {index}th embed")
+
     async def setwebhookchannel(self, webhook: discord.Webhook, channel: discord.TextChannel):
         return await self.bot.http.request(discord.http.Route('PATCH', '/webhooks/{webhook_id}', webhook_id=webhook.id),
                                            json={'channel_id': str(channel.id)})
+
+    async def isIncompleteSuggest(self, message: discord.Message):
+        if not len(message.reactions):
+            return False
+
+        reactedEmoji = map(lambda x: x.emoji, message.reactions)
+
+        return not any(x in reactedEmoji for x in EMOJIS_TO_IGNORE)
 
 
 def setup(bot):

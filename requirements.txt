@@ -2,3 +2,4 @@ pytz
 git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py
 requests
 attrs
+sqlitedict
