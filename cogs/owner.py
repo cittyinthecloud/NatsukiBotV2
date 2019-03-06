@@ -28,7 +28,7 @@ class OwnerCog:
     def __init__(self, bot):
         self.bot = bot
 
-async def __local_check(self, ctx: commands.Context):
+    async def __local_check(self, ctx: commands.Context):
             if ctx.author.id == 84163178585391104 or (await ctx.bot.is_owner(ctx.author)):
                 return True
             else:
