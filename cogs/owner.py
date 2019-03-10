@@ -28,9 +28,15 @@ class OwnerCog:
     def __init__(self, bot):
         self.bot = bot
 
+    async def __local_check(self, ctx: commands.Context):
+        if ctx.author.id == 84163178585391104 or (await ctx.bot.is_owner(ctx.author)):
+            return True
+        else:
+            return False
+
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
-    @commands.is_owner()
+    # @commands.is_owner()
     async def cog_load(self, ctx, *, cog: str):
         """Command which Loads a Module.
         Remember to use dot path. e.g: cogs.owner"""
@@ -44,7 +50,7 @@ class OwnerCog:
             await ctx.send('**`SUCCESS`**')
 
     @commands.command(name='unload', hidden=True)
-    @commands.is_owner()
+    # @commands.is_owner()
     async def cog_unload(self, ctx, *, cog: str):
         """Command which Unloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
@@ -57,7 +63,7 @@ class OwnerCog:
             await ctx.send('**`SUCCESS`**')
 
     @commands.command(name='reload', hidden=True)
-    @commands.is_owner()
+    # @commands.is_owner()
     async def cog_reload(self, ctx, *, cog: str):
         """Command which Reloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
@@ -72,7 +78,7 @@ class OwnerCog:
             await ctx.send(f'**`SUCCESS`** Reloaded {cog}')
 
     @commands.command(name='reloadall', hidden=True)
-    @commands.is_owner()
+    # @commands.is_owner()
     async def cog_reloadall(self, ctx):
         """Command which Reloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
@@ -88,12 +94,12 @@ class OwnerCog:
                 await ctx.send(f'**`SUCCESS`** Reloaded {cog}')
 
     @commands.command(name="playing", hidden=True)
-    @commands.is_owner()
+    # @commands.is_owner()
     async def pres_playing(self, ctx, *, content):
         await self.bot.change_presence(activity=discord.Game(content))
 
     @commands.command(name="eval")
-    @commands.is_owner()
+    # @commands.is_owner()
     async def eval_fn(self, ctx, *, cmd):
         """Evaluates input.
         Input is interpreted as newline seperated statements.
@@ -143,7 +149,7 @@ class OwnerCog:
         await ctx.send(result)
 
     @commands.command(name="ip")
-    @commands.is_owner()
+    # @commands.is_owner()
     async def get_ip(self, ctx):
         await ctx.send(requests.get("https://api.ipify.org").text)
 
