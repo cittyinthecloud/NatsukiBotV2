@@ -21,7 +21,7 @@ class ModeratorCog:
             return True
         else:
             return False
-4
+
     @commands.command()
     async def purge(self, ctx: commands.Context, count: int):
         await ctx.channel.delete_messages(await ctx.channel.history(limit=count + 1).flatten())
