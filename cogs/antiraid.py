@@ -24,7 +24,7 @@ class RaidCog:
         if message.role_mentions and len(list(filter(lambda x: x.name != "Moderator", message.role_mentions))):
             self.pings[message.author.id] = self.pings.get(message.author.id, 0) + 1
             if self.pings[message.author.id] > 3:
-                await self._gulag.addGulag(message.author, 30 * 60, "NatsukiBot AntiRaid[TM]",
+                await self._gulag.add_gulag(message.author, 30 * 60, "NatsukiBot AntiRaid[TM]",
                                            "Pinged roles in more than 3 messages over 30 seconds")
                 await message.channel.send(f"{message.author.mention} has been autogulaged for suspected raiding. If "
                                            f"this is in correct, please contact a staff member.")
