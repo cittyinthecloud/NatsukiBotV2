@@ -30,6 +30,12 @@ class GulagCog:
         self.gulags = {}
         self.gulagrole = None
 
+    async def __local_check(self, ctx: commands.Context):
+        if await ctx.bot.is_owner(ctx.author):
+            return True
+        else:
+            return ctx.author.guild_permissions.kick_members
+
     @staticmethod
     def parsetimestr(timestr: str) -> int:
         timeunits = re.findall(r"\d+[smhdw]", timestr)
@@ -47,16 +53,9 @@ class GulagCog:
             totaltime += temp
         return totaltime
 
-    async def __local_check(self, ctx: commands.Context):
-        if await ctx.bot.is_owner(ctx.author):
-            return True
-        else:
-            return ctx.author.guild_permissions.kick_members
-
     @commands.command(hidden=True)
     async def timeparsetest(self, ctx, timestr):
         return await ctx.send(f'{self.parsetimestr(timestr)} seconds')
-
 
     async def addGulag(self, member: discord.Member, time: int, gulager: str, reason: str):
         now = datetime.now(timezone.utc)
@@ -67,7 +66,6 @@ class GulagCog:
         roles = member.roles[1:]
         await member.add_roles(self.gulagrole, reason=f"Gulaged by {gulager}")
         await member.remove_roles(*roles, reason=f"Gulaged by {gulager}")
-
 
     @commands.command()
     async def gulag(self, ctx: commands.Context, member: discord.Member, time: str, *, reason: str):

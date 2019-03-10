@@ -38,8 +38,8 @@ class OwnerCog:
         try:
             self.bot.load_extension(cog)
         except Exception as e:
-            #await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}\nTraceback: ```\n{traceback.print_tb(e.__traceback__)}')
-            await ctx.send("```"+"".join(traceback.format_exception(type(e), e, e.__traceback__))+"```")
+            # await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}\nTraceback: ```\n{traceback.print_tb(e.__traceback__)}')
+            await ctx.send("```" + "".join(traceback.format_exception(type(e), e, e.__traceback__)) + "```")
         else:
             await ctx.send('**`SUCCESS`**')
 
@@ -67,7 +67,7 @@ class OwnerCog:
             self.bot.unload_extension(cog)
             self.bot.load_extension(cog)
         except Exception as e:
-            await ctx.send("```"+"".join(traceback.format_exception(type(e), e, e.__traceback__))+"```")
+            await ctx.send("```" + "".join(traceback.format_exception(type(e), e, e.__traceback__)) + "```")
         else:
             await ctx.send(f'**`SUCCESS`** Reloaded {cog}')
 
@@ -144,8 +144,9 @@ class OwnerCog:
 
     @commands.command(name="ip")
     @commands.is_owner()
-    async def get_ip(self,ctx):
+    async def get_ip(self, ctx):
         await ctx.send(requests.get("https://api.ipify.org").text)
+
 
 def setup(bot):
     bot.add_cog(OwnerCog(bot))

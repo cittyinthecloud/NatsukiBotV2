@@ -59,7 +59,7 @@ class RoleCog:
 
     @commands.command(name="comedy-dark")
     async def comedydark(self, ctx):
-        await self.iam.callback(self, ctx, role=self.bot.get_guild(339272843327963136).get_role(393590602614308864 ))
+        await self.iam.callback(self, ctx, role=self.bot.get_guild(339272843327963136).get_role(393590602614308864))
 
     @commands.command(aliases=["Iam"])
     async def iam(self, ctx: Context, *, role: typing.Union[Role, str]):

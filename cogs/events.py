@@ -17,7 +17,7 @@ class EventCog:
                 return
             await message.add_reaction("⬆")
             await message.add_reaction("⬇")
-        #await self.bot.process_commands(message)
+        # await self.bot.process_commands(message)
 
 
 def setup(bot):

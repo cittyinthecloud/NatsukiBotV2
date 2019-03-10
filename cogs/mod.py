@@ -21,7 +21,7 @@ class ModeratorCog:
             return True
         else:
             return False
-
+4
     @commands.command()
     async def purge(self, ctx: commands.Context, count: int):
         await ctx.channel.delete_messages(await ctx.channel.history(limit=count + 1).flatten())
@@ -52,7 +52,7 @@ class ModeratorCog:
         await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/4iUOu2Q.png", content=message)
 
     @commands.command()
-    async def suggestion(self, ctx: commands.Context, index: int=1):
+    async def suggestion(self, ctx: commands.Context, index: int = 1):
         m: discord.Message = await ctx.send("Please wait, finding suggestion...")
         async with ctx.typing():
             suggestionsmessages = [x async for x in
@@ -72,7 +72,7 @@ class ModeratorCog:
                 return await m.edit(content="No more suggestions")
             else:
                 try:
-                    theking: discord.Message = sorted_x[index-1][0]
+                    theking: discord.Message = sorted_x[index - 1][0]
                     updoots = discord.utils.get(theking.reactions, emoji="\N{UPWARDS BLACK ARROW}").count
                     downdoots = discord.utils.get(theking.reactions, emoji="\N{DOWNWARDS BLACK ARROW}").count
 
@@ -92,9 +92,7 @@ class ModeratorCog:
         if not len(message.reactions):
             return False
 
-        reactedEmoji = map(lambda x: x.emoji, message.reactions)
-
-        return not any(x in reactedEmoji for x in EMOJIS_TO_IGNORE)
+        return not any(x.emoji in EMOJIS_TO_IGNORE for x in message.reactions)
 
 
 def setup(bot):

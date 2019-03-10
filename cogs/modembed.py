@@ -59,13 +59,13 @@ async def str_to_modembed(inputstring):
     except IndexError:
         pass
     add_field_checked(embed, "Contributors Needed", split[9])
-    async with aiohttp.ClientSession(headers={"Authorization":f"Bearer {SECRET.bitly_access_token}"}) as session:
+    async with aiohttp.ClientSession(headers={"Authorization": f"Bearer {SECRET.bitly_access_token}"}) as session:
         if split[10] != "":
-            resp = await session.post("https://api-ssl.bitly.com/v4/shorten",json={"long_url": split[10]})
+            resp = await session.post("https://api-ssl.bitly.com/v4/shorten", json={"long_url": split[10]})
             json = await resp.json()
             add_field_checked(embed, "Reddit", json["link"])
         if split[7] != "":
-            resp = await session.post("https://api-ssl.bitly.com/v4/shorten",json={"long_url": split[7]})
+            resp = await session.post("https://api-ssl.bitly.com/v4/shorten", json={"long_url": split[7]})
             json = await resp.json()
             add_field_checked(embed, "Download", json["link"])
     return embed
