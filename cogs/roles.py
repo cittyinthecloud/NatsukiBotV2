@@ -36,7 +36,7 @@ def isassignableFactory(bot: commands.Bot):
     return isassignable
 
 
-class RoleCog:
+class RoleCog(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot

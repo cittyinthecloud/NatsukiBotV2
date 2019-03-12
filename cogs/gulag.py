@@ -35,12 +35,12 @@ def can_gulag_check():
     return commands.check(can_gulag)
 
 
-class GulagCog:
+class GulagCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.bot.loop.create_task(self.gulagchecker())
         self.gulags = {}
         self.gulag_role = None
+        self.bot.loop.create_task(self.gulagchecker())
 
     @staticmethod
     def parse_time_string(timestr: str) -> int:

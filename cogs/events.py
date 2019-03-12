@@ -1,12 +1,12 @@
 import discord
 from discord.ext import commands
 
-
-class EventCog:
+class EventCog(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
+    @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         # if "bulli" in message.clean_content.lower() and not message.author.bot:
         #     message.channel: discord.TextChannel
