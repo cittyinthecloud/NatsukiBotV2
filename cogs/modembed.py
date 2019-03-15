@@ -7,7 +7,7 @@ from discord.ext import commands
 import SECRET
 
 
-class GameModCog:
+class GameModCog(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot

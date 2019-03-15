@@ -5,13 +5,10 @@ from discord.ext import commands
 from discord.ext.commands import BucketType
 
 import msweeper
-from botutils import is_in_channel
+from botutils import is_in_channel, BaseCog
 
 
-class FunCog:
-
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
+class FunCog(BaseCog):
 
     @commands.command()
     @commands.cooldown(1, float(15), BucketType.member)

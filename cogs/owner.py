@@ -22,7 +22,7 @@ def insert_returns(body):
         insert_returns(body[-1].body)
 
 
-class OwnerCog:
+class OwnerCog(commands.Cog):
     bot: commands.Bot
 
     def __init__(self, bot):

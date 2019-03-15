@@ -8,7 +8,7 @@ from discord.ext import commands
 from cogs.gulag import GulagCog
 
 
-class RaidCog:
+class RaidCog(commands.Cog):
     _session: aiohttp.ClientSession
 
     def __init__(self, bot: commands.Bot):
