@@ -1,4 +1,5 @@
 import asyncio
+import string
 
 import aiohttp
 import bs4
@@ -6,6 +7,8 @@ import discord
 from discord.ext import commands
 
 from cogs.gulag import GulagCog
+
+blanknamechars = set(" \U000e0000")
 
 
 class RaidCog(commands.Cog):
@@ -20,12 +23,13 @@ class RaidCog(commands.Cog):
     def __unload(self):
         self.bot.loop.create_task(self._session.close())
 
+    @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.role_mentions and len(list(filter(lambda x: x.name != "Moderator", message.role_mentions))):
             self.pings[message.author.id] = self.pings.get(message.author.id, 0) + 1
             if self.pings[message.author.id] > 3:
                 await self._gulag.add_gulag(message.author, 30 * 60, "NatsukiBot AntiRaid[TM]",
-                                           "Pinged roles in more than 3 messages over 30 seconds")
+                                            "Pinged roles in more than 3 messages over 30 seconds")
                 await message.channel.send(f"{message.author.mention} has been autogulaged for suspected raiding. If "
                                            f"this is in correct, please contact a staff member.")
         if message.attachments:
@@ -44,6 +48,13 @@ class RaidCog(commands.Cog):
         while True:
             self.pings = {}
             await asyncio.sleep(30)
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        if set(member.display_name).issubset(blanknamechars):
+            await member.edit(nick="I had a blank name")
+        elif not any(x in member.display_name for x in string.printable):
+            await member.edit(nick=f"${member.display_name}"[:32])
 
 
 def setup(bot):
