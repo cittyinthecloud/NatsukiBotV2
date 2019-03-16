@@ -11,7 +11,7 @@ from sqlitedict import SqliteDict
 
 @attr.s(auto_attribs=True)
 class GulagState:
-    ungulagtime: datetime
+    ungulag_time: datetime
     roles: typing.List[int]
     guild: int
     reason: str
@@ -67,7 +67,7 @@ class GulagCog(commands.Cog):
         now = datetime.now(timezone.utc)
         ungulag_time = now + timedelta(seconds=time)
         roles = list(map(lambda x: x.id, member.roles))[1:]
-        self.gulags[member.id] = GulagState(ungulagtime=ungulag_time, roles=roles, guild=member.guild.id,
+        self.gulags[member.id] = GulagState(ungulag_time=ungulag_time, roles=roles, guild=member.guild.id,
                                             reason=reason)
         roles = member.roles[1:]
         await member.add_roles(self.gulag_role, reason=f"Gulaged by {gulager}")
@@ -109,7 +109,7 @@ class GulagCog(commands.Cog):
     async def gulag_check(self):
         to_remove = []
         for member_id in self.gulags:
-            if datetime.now(timezone.utc) > self.gulags[member_id].ungulagtime:
+            if datetime.now(timezone.utc) > self.gulags[member_id].ungulag_time:
                 guild: discord.Guild = self.bot.get_guild(self.gulags[member_id].guild)
                 if not guild.get_member(member_id):
                     continue
@@ -118,7 +118,6 @@ class GulagCog(commands.Cog):
                     to_remove.append(member_id)
                     member: discord.Member = guild.get_member(member_id)
                     roles: typing.List[discord.Role] = list(map(guild.get_role, gulag_state.roles))
-                    print(roles)
                     await member.remove_roles(self.gulag_role, reason=f"Ungulaged by timer.")
                     await member.add_roles(*roles, reason=f"Ungulaged by timer.")
 

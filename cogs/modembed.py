@@ -12,14 +12,14 @@ class GameModCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.command()
-    async def addmod(self, ctx: commands.Context, *, inputstring: str):
+    @commands.command(name="addmod")
+    async def add_mod(self, ctx: commands.Context, *, inputstring: str):
         await ctx.message.delete()
 
         await ctx.send(content=None, embed=await str_to_modembed(inputstring))
 
-    @commands.command()
-    async def editmod(self, ctx: commands.Context, modname: str, *, inputstring: str):
+    @commands.command(name="editmod")
+    async def edit_mod(self, ctx: commands.Context, modname: str, *, inputstring: str):
         self.bot.loop.create_task(ctx.message.delete())
 
         def predicate(m: discord.Message):
@@ -30,8 +30,9 @@ class GameModCog(commands.Cog):
                 return True
             return False
 
-        message: discord.Message = await ctx.channel.history().find(predicate)
-        await message.edit(embed=await str_to_modembed(inputstring))
+        with ctx.typing():
+            message: discord.Message = await ctx.channel.history(limit=None).find(predicate)
+            await message.edit(embed=await str_to_modembed(inputstring))
 
 
 async def str_to_modembed(inputstring):

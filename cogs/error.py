@@ -4,7 +4,11 @@ import traceback
 from discord.ext import commands
 
 
+# Don't let any tools I get in the future complain about us catching
+# exceptions too broadly here because that's kinda the whole point
+
 # noinspection PyBroadException
+
 class CommandErrorHandler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -45,16 +49,12 @@ class CommandErrorHandler(commands.Cog):
             except:
                 pass
 
-        # elif isinstance(error, discord.Forbidden):
-        #     return await ctx.send("You can't do that here")
-
-        # For this error example we check to see where it came from...
         elif isinstance(error, commands.BadArgument):
             return await ctx.send('Invalid arguments.')
 
         elif isinstance(error, commands.CheckFailure):
             return await ctx.send("Either you don't have permission to do that, or it can't be done here, baka!")
-        # All other Errors not returned come here... And we can just print the default TraceBack.
+
         await ctx.send(f"Sorry! An unexpected error has occurred. Please let <@170272074860986370> know ASAP, "
                        f"unless you just broke it for fun.\n```"
                        f"{''.join(traceback.format_exception(type(error), error, error.__traceback__))}```")

@@ -31,13 +31,13 @@ class ModeratorCog(commands.Cog):
         asyncio.create_task(ctx.message.delete())
         await ctx.send(thing)
 
-    @commands.command(aliases=["saychan"])
-    async def saychannel(self, ctx, channel: discord.TextChannel, *, thing):
+    @commands.command(name="saychan", aliases=["saychannel", "sayin"])
+    async def say_channel(self, ctx, channel: discord.TextChannel, *, thing):
         asyncio.create_task(ctx.message.delete())
         await channel.send(thing)
 
-    @commands.command()
-    async def sayyuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+    @commands.command(name="sayyuri")
+    async def say_yuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
         if not channel:
             channel = ctx.channel
         webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
@@ -45,7 +45,7 @@ class ModeratorCog(commands.Cog):
             return await ctx.channel.send("I don't have a webhook :(")
         if webhook.channel != channel:
             try:
-                await self.setwebhookchannel(webhook, channel)
+                await self._set_webhook_channel(webhook, channel)
             except discord.errors.Forbidden:
                 return await ctx.channel.send("I don't have permission to move my webhook to that channel")
 
@@ -57,7 +57,7 @@ class ModeratorCog(commands.Cog):
         async with ctx.typing():
             suggestionsmessages = [x async for x in
                                    discord.utils.get(ctx.guild.channels, name="server_suggestions").history()
-                                   if await self.isIncompleteSuggest(x)]
+                                   if await self._is_incomplete_suggest(x)]
 
             def get_upvotes(x):
                 reactions = discord.utils.get(x.reactions, emoji="\N{UPWARDS BLACK ARROW}")
@@ -84,11 +84,11 @@ class ModeratorCog(commands.Cog):
                 except IndexError:
                     return await m.edit(content=f"No {index}th embed")
 
-    async def setwebhookchannel(self, webhook: discord.Webhook, channel: discord.TextChannel):
+    async def _set_webhook_channel(self, webhook: discord.Webhook, channel: discord.TextChannel):
         return await self.bot.http.request(discord.http.Route('PATCH', '/webhooks/{webhook_id}', webhook_id=webhook.id),
                                            json={'channel_id': str(channel.id)})
 
-    async def isIncompleteSuggest(self, message: discord.Message):
+    async def _is_incomplete_suggest(self, message: discord.Message):
         if not len(message.reactions):
             return False
 
