@@ -53,7 +53,7 @@ class RaidCog(commands.Cog):
     async def on_member_join(self, member: discord.Member):
         if set(member.display_name).issubset(blanknamechars):
             await member.edit(nick="I had a blank name")
-        elif not any(x in member.display_name for x in string.printable):
+        elif not any(x in member.display_name for x in string.printable if x not in string.whitespace):
             await member.edit(nick=f"${member.display_name}"[:32])
 
 
