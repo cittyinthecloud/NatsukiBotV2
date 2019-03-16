@@ -6,6 +6,8 @@ from discord.ext import commands
 from discord.ext.commands import Context
 from sqlitedict import SqliteDict
 
+from utils.bot import BaseCog
+
 allowed_role_ids = [
     376697695613485066,
     382402008553881600,
@@ -27,20 +29,7 @@ artists = [
 ]
 
 
-def isassignableFactory(bot: commands.Bot):
-    def isassignable(role: discord.Role):
-        if role.is_default():
-            return False
-        return role.guild.get_member(bot.user.id).top_role > role
-
-    return isassignable
-
-
-class RoleCog(commands.Cog):
-
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
-
+class RoleCog(BaseCog):
     async def on_member_remove(self, member: discord.Member):
         with SqliteDict('./roledb.sqlite', autocommit=True) as roledb:
             roledb[str(member.id)] = list(map(lambda x: x.id, list(member.roles)))
@@ -58,10 +47,10 @@ class RoleCog(commands.Cog):
                                        )
 
     @commands.command(name="comedy-dark")
-    async def comedydark(self, ctx):
+    async def comedy_dark(self, ctx):
         await self.iam.callback(self, ctx, role=self.bot.get_guild(339272843327963136).get_role(393590602614308864))
 
-    @commands.command(aliases=["Iam"])
+    @commands.command(aliases=["Iam", "IAM"])
     async def iam(self, ctx: Context, *, role: typing.Union[Role, str]):
         artist = self.bot.get_guild(339272843327963136).get_role(376696109973635096)
 

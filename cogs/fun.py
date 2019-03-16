@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord.ext.commands import BucketType
 
 import msweeper
-from botutils import is_in_channel, BaseCog
+from utils.bot import is_in_channel, BaseCog
 
 
 class FunCog(BaseCog):

@@ -5,7 +5,7 @@ import discord
 import pytz
 from discord.ext import commands
 
-from botutils import BaseCog
+from utils.bot import BaseCog
 
 timezones = [
     "UTC",
