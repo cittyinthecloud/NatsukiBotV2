@@ -11,7 +11,7 @@ from cogs.gulag import GulagCog
 blanknamechars = set(" \U000e0000")
 
 
-class RaidCog(commands.Cog):
+class AutoModCog(commands.Cog):
     _session: aiohttp.ClientSession
 
     def __init__(self, bot: commands.Bot):
@@ -58,7 +58,7 @@ class RaidCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(RaidCog(bot))
+    bot.add_cog(AutoModCog(bot))
 
 
 def teardown(bot: commands.Bot):

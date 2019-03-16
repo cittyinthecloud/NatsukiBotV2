@@ -10,12 +10,12 @@ initial_extensions = [
     "cogs.owner",
     "cogs.roles",
     "cogs.error",
-    "cogs.events",
+    "cogs.suggestions",
     "cogs.fun",
     "cogs.gulag",
     "cogs.basics",
     "cogs.mod",
-    "cogs.antiraid"
+    "cogs.automod"
 ]
 
 logging.basicConfig(level=logging.INFO)
