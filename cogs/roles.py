@@ -38,7 +38,8 @@ class RoleCog(BaseCog):
         with SqliteDict('./roledb.sqlite', autocommit=True) as roledb:
             if str(member.id) in roledb:
                 await member.add_roles(*list(
-                    filter(isassignableFactory(self.bot),
+
+                    filter(lambda x: self.utils.is_assignable(x),
                            map(lambda x: member.guild.get_role(x),
                                roledb[str(member.id)]
                                )

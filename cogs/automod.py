@@ -23,7 +23,6 @@ class AutoModCog(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self._session.close())
 
-
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.role_mentions and len(list(filter(lambda x: x.name != "Moderator", message.role_mentions))):

@@ -1,5 +1,3 @@
-from typing import List
-
 import discord
 from discord.ext import commands
 
@@ -24,6 +22,7 @@ class BotUtils:
             return iter(())
         else:
             return filter(self.is_assignable, guild.roles)
+
 
 def is_in_channel(channel_id):
     async def predicate(ctx: commands.Context):

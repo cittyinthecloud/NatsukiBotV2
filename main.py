@@ -27,7 +27,7 @@ if __name__ == '__main__':
         # noinspection PyBroadException
         try:
             bot.load_extension(extension)
-        except Exception as e:
+        except Exception:
             print(f'Failed to load extension {extension}.', file=sys.stderr)
             traceback.print_exc()
 

@@ -15,8 +15,9 @@ number_emotes = (
 
 bomb_emote = "\N{BOMB}"
 
+
 def get_cell(mines, x, y):
-    if (x,y) in mines:
+    if (x, y) in mines:
         return bomb_emote
     else:
         bombs = 0
@@ -26,7 +27,8 @@ def get_cell(mines, x, y):
                     bombs = bombs+1
         return number_emotes[bombs]
 
+
 def generate_board(size_x, size_y, minecount: int):
-    mines = [(random.randrange(0,size_x), random.randrange(0,size_y)) for _ in range(minecount)]
+    mines = [(random.randrange(0, size_x), random.randrange(0, size_y)) for _ in range(minecount)]
     field = [[get_cell(mines, x, y) for x in range(size_x)] for y in range(size_y)]
     return "\n".join(("||"+"||||".join(row)+"||") for row in field)

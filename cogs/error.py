@@ -8,7 +8,6 @@ from discord.ext import commands
 # exceptions too broadly here because that's kinda the whole point
 
 # noinspection PyBroadException
-
 class CommandErrorHandler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -39,14 +38,14 @@ class CommandErrorHandler(commands.Cog):
         elif isinstance(error, commands.NoPrivateMessage):
             try:
                 return await ctx.author.send(f'{ctx.command} can not be used in Private Messages.')
-            except:
+            except:  # noqa: E722
                 pass
 
         elif isinstance(error, commands.errors.CommandOnCooldown):
             try:
                 return await ctx.author.send(f'This command is on cooldown! Please try again in '
                                              f'{int(error.retry_after)} seconds.')
-            except:
+            except:  # noqa: E722
                 pass
 
         elif isinstance(error, commands.BadArgument):

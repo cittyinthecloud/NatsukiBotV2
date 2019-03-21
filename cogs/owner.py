@@ -44,7 +44,6 @@ class OwnerCog(commands.Cog):
         try:
             self.bot.load_extension(cog)
         except Exception as e:
-            # await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}\nTraceback: ```\n{traceback.print_tb(e.__traceback__)}')
             await ctx.send("```" + "".join(traceback.format_exception(type(e), e, e.__traceback__)) + "```")
         else:
             await ctx.send('**`SUCCESS`**')

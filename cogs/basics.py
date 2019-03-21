@@ -51,10 +51,6 @@ class BasicsCog(BaseCog):
         embed.add_field(name='\u200b', value='\u200b')
         return await ctx.send(embed=embed)
 
-    @commands.command()
-    async def whosaround(self, ctx: commands.Context):
-        embed = discord.Embed(title="Available Staff")
-
 
 def setup(bot):
     bot.add_cog(BasicsCog(bot))
