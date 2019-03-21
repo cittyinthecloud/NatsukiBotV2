@@ -16,8 +16,8 @@ class ModeratorCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    async def __local_check(self, ctx: commands.Context):
-        if ctx.author.permissions_in(ctx.channel).manage_messages or (await ctx.bot.is_owner(ctx.author)):
+    async def cog_check(self, ctx: commands.Context):
+        if ctx.author.permissions_in(ctx.channel).manage_messages or (await self.bot.is_owner(ctx.author)):
             return True
         else:
             return False

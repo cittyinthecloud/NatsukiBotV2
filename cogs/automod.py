@@ -20,8 +20,9 @@ class AutoModCog(commands.Cog):
         self.pings = {}
         self.bot.loop.create_task(self.pingResetter())
 
-    def __unload(self):
+    def cog_unload(self):
         self.bot.loop.create_task(self._session.close())
+
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):

@@ -28,11 +28,11 @@ class OwnerCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def __local_check(self, ctx: commands.Context):
-        if ctx.author.id == 84163178585391104 or (await ctx.bot.is_owner(ctx.author)):
+    async def cog_check(self, ctx: commands.Context):
+        if (await self.bot.is_owner(ctx.author)):
             return True
         else:
-            return False
+            return ctx.author.id == 84163178585391104
 
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
