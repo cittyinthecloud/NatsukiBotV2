@@ -62,4 +62,4 @@ def setup(bot):
 
 
 def teardown(bot: commands.Bot):
-    bot.remove_cog("RaidCog")
+    bot.remove_cog("AutoModCog")
