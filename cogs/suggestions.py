@@ -1,6 +1,11 @@
 import discord
 from discord.ext import commands
 
+vote_emoji = {
+    "⬆": "⬇",
+    "⬇": "⬆"
+}
+
 
 class EventCog(commands.Cog):
 
@@ -15,6 +20,16 @@ class EventCog(commands.Cog):
                 return
             await message.add_reaction("⬆")
             await message.add_reaction("⬇")
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
+        if payload.channel_id == 430396361045966860 and payload.emoji.name in vote_emoji:
+            m: discord.Message = await self.bot.get_channel(430396361045966860).fetch_message(payload.message_id)
+            # noinspection PyBroadException
+            try:
+                await m.remove_reaction(vote_emoji[payload.emoji.name], m.guild.get_member(payload.user_id))
+            except Exception:
+                pass
 
 
 def setup(bot):
