@@ -30,10 +30,13 @@ artists = [
 
 
 class RoleCog(BaseCog):
+
+    @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
         with SqliteDict('./roledb.sqlite', autocommit=True) as roledb:
             roledb[str(member.id)] = list(map(lambda x: x.id, list(member.roles)))
 
+    @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         with SqliteDict('./roledb.sqlite', autocommit=True) as roledb:
             if str(member.id) in roledb:

@@ -11,6 +11,13 @@ from cogs.gulag import GulagCog
 blanknamechars = set(" \U000e0000")
 
 
+def isUntypeable(thing: str):
+    for c in thing:
+        if c in string.ascii_letters or c in string.digits:
+            return False
+    return True
+
+
 class AutoModCog(commands.Cog):
     _session: aiohttp.ClientSession
 
@@ -53,7 +60,7 @@ class AutoModCog(commands.Cog):
     async def on_member_join(self, member: discord.Member):
         if set(member.display_name).issubset(blanknamechars):
             await member.edit(nick="I had a blank name")
-        elif not any(x in member.display_name for x in string.printable if x not in string.whitespace):
+        elif isUntypeable(member.display_name):
             await member.edit(nick=f"${member.display_name}"[:32])
 
 
