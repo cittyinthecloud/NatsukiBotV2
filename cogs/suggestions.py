@@ -23,6 +23,8 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
+        if payload.user_id == 462824914769018882:
+            return
         if payload.channel_id == 430396361045966860 and payload.emoji.name in vote_emoji:
             m: discord.Message = await self.bot.get_channel(430396361045966860).fetch_message(payload.message_id)
             # noinspection PyBroadException
